@@ -1,0 +1,40 @@
+.journal-container {
+  display: flex;
+  gap: 2rem;
+}
+
+.entries-list {
+  flex: 1;
+  background-color: #f8f8f8;
+  padding: 1rem;
+  overflow-y: auto;
+  border-radius: 15px;
+}
+
+.entry-item {
+  margin-bottom: 1rem;
+  /* Add more styles to make this look better */
+}
+
+.featured-entry {
+  flex: 2;
+  background-color: #ffffff;
+  padding: 2rem;
+  position: relative;
+  border-radius: 15px;
+}
+
+.featured-entry .close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.new-entry {
+  width: 100%;
+  margin-top: 1rem;
+}
