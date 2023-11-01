@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Git-Well
 
-## Getting Started
+# Your team member names and uic emails go here
+Anthony Sorto: asorto3@uic.edu, Srivardhan Karnati: skarn5@uic.edu, Jessica Garcia Flores: jgarc259@uic.edu
 
-First, run the development server:
+# Your GitHub repository link goes here
+https://github.com/asorto007/my-app
+If you have a private repository, please add `kaytwo` and `sauravjoshi` as collaborators.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What does your application do?
+Mental Health Journaling App aimed at CS Students: Create a journaling app focused on mental health and well-being. Users will be able to record their daily thoughts, moods, and experiences, and the app can provide insights and suggestions for improving mental health.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## What makes it different than a CRUD app? I.e., what functionality does it provide that is not just a user interface layer on top of a database of user information,and the ability to view / add to / change that information?
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+We plan to incorporate a chatbot, and add additional intelligent features. We will use widgets and buttons to make the experience user-friendly. We also wanted to experiment with NLP with the chatbot for sentiment analysis. Add achievements and badges possibly.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## What security and privacy concerns do you expect you (as developers) or your users to have with this application?
 
-## Learn More
+Authorized logins <br />
+Security of their information <br />
+Unauthorized access <br />
+Accessibility and reliability of website (Secure against DoS attacks) <br />
+Ability to scale up (if more people than what the servers can handle access our website)
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### This repository
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+This repository has a package.json that functions as a blank shell that gets full credit if you turn it in to the gradescope autograder. We will not be using the autograder in any way to actually evaluate your project, it is just there to keep track of your initial submission.
 
-## Deploy on Vercel
+We recommend that you use this repository for your final project code. This will allow you to ask questions on Piazza and get help from the TAs and instructors. Adding a real linter, type checker, etc, based on our other examples would be a good idea.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Website Link
+https://my-app-rust-ten.vercel.app/
