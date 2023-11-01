@@ -4,7 +4,7 @@
 Anthony Sorto: asorto3@uic.edu, Srivardhan Karnati: skarn5@uic.edu, Jessica Garcia Flores: jgarc259@uic.edu
 
 # Your GitHub repository link goes here
-https://github.com/sri-karnati/finalproject-cs-484
+https://github.com/asorto007/my-app
 If you have a private repository, please add `kaytwo` and `sauravjoshi` as collaborators.
 
 ## What does your application do?
