@@ -28,6 +28,10 @@ const ChatComponent = () => {
         body: JSON.stringify({ userInput }),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
       const chatGptResponse = data.text;
 
@@ -37,9 +41,40 @@ const ChatComponent = () => {
       ]);
     } catch (error) {
       console.error("Error:", error);
+      // Handle the error gracefully, for example, display an error message to the user
     }
     setUserInput("");
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const newMessages = [...messages, { role: "user", content: userInput }];
+  //   setMessages(newMessages);
+
+  //   // Simulate API call to ChatGPT
+
+  //   try {
+  //     const response = await fetch("/api/getChat", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ userInput }),
+  //     });
+
+  //     const data = await response.json();
+  //     const chatGptResponse = data.text;
+
+  //     setMessages([
+  //       ...newMessages,
+  //       { role: "assistant", content: chatGptResponse },
+  //     ]);
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  //   setUserInput("");
+  // };
 
   return (
     <div>

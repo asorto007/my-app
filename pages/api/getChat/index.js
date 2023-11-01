@@ -34,6 +34,7 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
+
 // export default async function handler(req, res) {
 //   try {
 //     console.log("Received request at /response");

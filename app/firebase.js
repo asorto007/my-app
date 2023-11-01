@@ -19,5 +19,13 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// if (firebase.analytics.isSupported()) {
+//   firebase.analytics();
+// }
+// const analytics = getAnalytics(app);
 export const auth = getAuth(app);
+// export const initFirebase = () => {
+//   return app;
+// };
+
+export default auth;
