@@ -1,7 +1,7 @@
 import openai from "openai";
 
-const apiUrl = process.env.API_URL;
-const apiKey = process.env.API_KEY;
+// const apiUrl = process.env.API_URL;
+// const apiKey = process.env.API_KEY;
 
 // openai.apiKey = apiKey;
 
