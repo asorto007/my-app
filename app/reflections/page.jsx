@@ -86,7 +86,7 @@ const Reflections = () => {
       </div>
 
       {/* Entry Display */}
-      <div style={{ padding: "20px" }}>
+      <div style={{ padding: "90px" }}>
         {entries.map((entry) => (
           <div
             key={entry.date}
