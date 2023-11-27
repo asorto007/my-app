@@ -28,6 +28,7 @@ export default function Home() {
     fontSize: "30px",
     fontFamily: "PT Serif",
     fontWeight: "700",
+    zIndex: 1,
   };
 
   return (
@@ -138,6 +139,17 @@ export default function Home() {
           border: "1px solid #FFF5EE",
         }}
       ></div>
+      <img
+        src="ok.png"
+        alt="Notebook"
+        style={{
+          position: "absolute",
+          top: 330,
+          left: 74,
+          width: "53px",
+          height: "53px",
+        }}
+      />
       <div
         style={{
           position: "absolute",
@@ -150,6 +162,17 @@ export default function Home() {
           border: "1px solid #FFF5EE",
         }}
       ></div>
+      <img
+        src="conversation.png"
+        alt="Notebook"
+        style={{
+          position: "absolute",
+          top: 330,
+          left: 176,
+          width: "55px",
+          height: "56px",
+        }}
+      />
 
       {/* Placeholder for Notebook Image */}
       <img
@@ -157,8 +180,8 @@ export default function Home() {
         alt="Notebook"
         style={{
           position: "absolute",
-          top: "-54px",
-          left: "864px",
+          top: "-35px",
+          left: "984px",
           width: "900px",
           height: "1110px",
         }}
