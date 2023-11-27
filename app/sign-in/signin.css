@@ -1,0 +1,118 @@
+.signin-container {
+  display: flex;
+  align-items: right;
+  justify-content: right;
+  height: 100vh;
+  background: #efecec;
+}
+
+.placeholder-image {
+  max-width: 800px; /* Maximum width */
+  width: 35%; /* Adjust the percentage based on your design needs */
+  height: auto; /* Maintain aspect ratio */
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.signin-box {
+  background: white;
+  width: 774px;
+  max-width: 90%; /* Ensure it doesn't stretch too much on larger screens */
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.signin-title {
+  color: black;
+  font-size: 85px;
+  font-family: "PT Serif", serif;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.signin-subtitle {
+  color: black;
+  font-size: 36px;
+  font-family: "PT Serif", serif;
+  font-weight: 400;
+}
+
+.signin-form {
+  margin-top: 2rem;
+}
+
+.signin-input {
+  width: 100%;
+  max-width: 550px;
+  padding: 10px;
+  margin-bottom: 1rem;
+  border: 2px solid black;
+  border-radius: 4px;
+  font-size: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signin-button {
+  width: 100%;
+  max-width: 550px;
+  padding: 20px;
+  margin-top: 1rem;
+  background: black;
+  color: white;
+  font-size: 30px;
+  font-family: "PT Serif", serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.signin-footer {
+  margin-top: 2rem;
+  font-size: 30px;
+  font-family: "PT Serif", serif;
+  font-weight: 400;
+}
+.signin-signup {
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .placeholder-image {
+    display: none; /* Hide the image on smaller screens if needed */
+  }
+
+  .signin-title {
+    font-size: 4.5rem; /* Adjust font size for smaller screens */
+  }
+
+  .signin-subtitle {
+    font-size: 2rem;
+  }
+
+  .signin-input,
+  .signin-button {
+    max-width: 90%; /* Adjust input width for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+   
+  .placeholder-image {
+    width: 50%; /* Increase the width percentage for smaller screens if needed */
+  }
+}
+
+/* Even smaller screens */
+@media (max-width: 480px) {
+  .placeholder-image {
+    width: 70%; /* Further increase the width percentage for very small screens */
+  }
+}
