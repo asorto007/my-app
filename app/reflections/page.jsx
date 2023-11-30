@@ -80,7 +80,8 @@ const Reflections = () => {
   };
 
 
-  const email = "skarn5@uic.edu"
+  const email = user.email;
+  console.log(email);
   // my code
   useEffect(() => {
     async function retrieveChats() {

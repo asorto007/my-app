@@ -74,10 +74,11 @@ const Journal = () => {
         setInputValue("");
 
         console.log("Got to second post");
+        console.log(user.email);
         const dataToInsert = {
           user: trimmedInput,
           ChatGPT: jsonData.text,
-          email: "skarn5@uic.edu",
+          email: user.email,
           date: date
         }
 
