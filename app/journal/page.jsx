@@ -3,7 +3,17 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
-import { auth } from "@/app/firebase/config";
+import { auth, app, db } from "@/app/firebase/config";
+
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 
 const Journal = () => {
   const [messages, setMessages] = useState([]);
@@ -59,6 +69,56 @@ const Journal = () => {
           ]);
         }, 500);
         setInputValue("");
+
+        console.log("Got to second post");
+        const dataToInsert = {
+          user: trimmedInput,
+          ChatGPT: jsonData.text,
+          email: "skarn5@uic.edu",
+          date: date
+        }
+
+        const insertPayload = {
+          prompt: dataToInsert
+        }
+
+        const postRequest = await fetch(`/api/insertChat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify(insertPayload),
+        });
+
+        if (postRequest.status === 200) {
+          console.log("HOORAY!");
+        }
+
+
+        /* What I'm thinking */
+
+        // const emailsCollection = collection(db, "/emails");
+        // const email = "skarn5@uic.edu";
+        // const emailCollection = doc(emailsCollection, email);
+        // const days = collection(emailCollection, "/days");
+        // const specificDay = doc(days, date);
+
+        // setDoc(emailCollection, {});
+        // setDoc(specificDay, {});
+
+        // const newObject = {user: userInput, ChatGPT: chatGptResponse};
+
+        // const specificDaySnapshot = await getDoc(specificDay);
+
+        // if (specificDaySnapshot.exists()) {
+        //   const currentEntries = specificDaySnapshot.data()?.entries;
+        //   currentEntries.push(newObject);
+        //   setDoc(specificDay, {entries: currentEntries});
+        // } else {
+        //   setDoc(specificDay, {entries: newObject});
+        // }
+
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -100,7 +160,7 @@ const Journal = () => {
         <button style={buttonStyle} onClick={() => router.push("/journal")}>
           Journal
         </button>
-        <button style={buttonStyle} onClick={handleReflectionsButtonClick}>
+        <button style={buttonStyle} onClick={() => router.push("/reflections")}>
           Reflections
         </button>
         <button
