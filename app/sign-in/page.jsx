@@ -28,7 +28,7 @@ const SignIn = () => {
     }
   }, [user, loading, router]);
 
-  if (loading || user) {
+  if (loading) {
     return <div>Loading...</div>; // or any loading component
   }
 
