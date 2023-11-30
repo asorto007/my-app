@@ -27,18 +27,41 @@ const Journal = () => {
     fontWeight: "700",
   };
 
-  const handleSend = () => {
-    const trimmedInput = inputValue.trim();
-    if (trimmedInput) {
-      setMessages([...messages, { sender: "User", text: trimmedInput }]);
-      // Simulate an AI response
-      setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { sender: "AI", text: "Put AI here" },
-        ]);
-      }, 500);
-      setInputValue("");
+  const handleSend = async () => {
+    try {
+      const trimmedInput = inputValue.trim();
+      if (trimmedInput) {
+        setMessages([...messages, { sender: "User", text: trimmedInput }]);
+        const payload = {
+          prompt: trimmedInput,
+        };
+        console.log("payload", payload);
+        const response = await fetch("/api/getChat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(trimmedInput),
+        });
+
+        if (response.status != 200) {
+          console.log("Error: " + response.status);
+          throw new Error("Error: " + response.status);
+        }
+
+        const jsonData = await response.json();
+        // Simulate an AI response
+        // createUserPrompt(inputValue);
+        setTimeout(() => {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { sender: "AI", text: jsonData.text },
+          ]);
+        }, 500);
+        setInputValue("");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
 
