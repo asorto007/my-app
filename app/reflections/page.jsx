@@ -2,6 +2,8 @@
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth, app, db } from "@/app/firebase/config";
+//Anthony made this change
+import withAuth from "@/app/components/auth";
 import React, { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -63,6 +65,7 @@ const dummyEntries = [
 const Reflections = () => {
   const [user] = useAuthState(auth);
   const router = useRouter();
+
   const [entries, setEntries] = useState(dummyEntries); // Replace with your actual data-fetching logic
   const [messages, setMessages] = useState([]);
 
@@ -186,4 +189,4 @@ const Reflections = () => {
   );
 };
 
-export default Reflections;
+export default withAuth(Reflections);

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useEffect } from "react";
 import "./signup.css"; // Make sure this CSS file is linked correctly
 
 const SignUp = () => {
@@ -15,6 +17,23 @@ const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
+
+  const [user, loading] = useAuthState(auth);
+
+  //from user we need to check email and personal info
+  // Client-side only code
+  // right now we access their email and info from the user object
+  // how can I add authentication to each page?
+  useEffect(() => {
+    const userSession = sessionStorage.getItem("user");
+    if (user && userSession) {
+      router.push("/");
+    }
+  }, [user, loading, router]);
+
+  if (loading || user) {
+    return <div>Loading...</div>; // or any loading component
+  }
 
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
