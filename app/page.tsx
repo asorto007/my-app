@@ -8,17 +8,31 @@ import { signOut } from "firebase/auth";
 import React, { useEffect } from "react";
 
 export default function Home() {
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
+
   const router = useRouter();
 
+  //from user we need to check email and personal info
   // Client-side only code
+  // right now we access their email and info from the user object
+  // how can I add authentication to each page?
   useEffect(() => {
     const userSession = sessionStorage.getItem("user");
 
     if (!user && !userSession) {
       router.push("/sign-in");
+    } else {
+      console.log("user", user?.email);
     }
-  }, [user, router]);
+  }, [user, loading, router]);
+
+  if (loading) {
+    return <div>Loading...</div>; // Display a loading indicator while checking auth status
+  }
+
+  if (!user) {
+    return null; // Render nothing if unauthenticated (redirect will occur)
+  }
 
   const buttonStyle = {
     background: "none",

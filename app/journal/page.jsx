@@ -1,11 +1,24 @@
 // pages/journal.tsx
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
-import { auth } from "@/app/firebase/config";
+import { useAuthState } from "react-firebase-hooks/auth";
+import withAuth from "@/app/components/auth";
+import { auth, app, db } from "@/app/firebase/config";
+
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 
 const Journal = () => {
+  const [user] = useAuthState(auth);
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const router = useRouter();
@@ -27,19 +40,100 @@ const Journal = () => {
     fontWeight: "700",
   };
 
-  const handleSend = () => {
-    const trimmedInput = inputValue.trim();
-    if (trimmedInput) {
-      setMessages([...messages, { sender: "User", text: trimmedInput }]);
-      // Simulate an AI response
-      setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { sender: "AI", text: "Put AI here" },
-        ]);
-      }, 500);
-      setInputValue("");
+  const handleSend = async () => {
+    try {
+      const trimmedInput = inputValue.trim();
+      if (trimmedInput) {
+        setMessages([...messages, { sender: "User", text: trimmedInput }]);
+        const payload = {
+          prompt: trimmedInput,
+        };
+        console.log("payload", payload);
+        const response = await fetch("/api/getChat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(trimmedInput),
+        });
+
+        if (response.status != 200) {
+          console.log("Error: " + response.status);
+          throw new Error("Error: " + response.status);
+        }
+
+        const jsonData = await response.json();
+        // Simulate an AI response
+        // createUserPrompt(inputValue);
+        setTimeout(() => {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { sender: "AI", text: jsonData.text },
+          ]);
+        }, 500);
+        setInputValue("");
+
+        console.log("Got to second post");
+        console.log(user.email);
+        const dataToInsert = {
+          user: trimmedInput,
+          ChatGPT: jsonData.text,
+          email: user.email,
+          date: date
+        }
+
+        const insertPayload = {
+          prompt: dataToInsert
+        }
+
+        const postRequest = await fetch(`/api/insertChat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify(insertPayload),
+        });
+
+        if (postRequest.status === 200) {
+          console.log("HOORAY!");
+        }
+
+
+        /* What I'm thinking */
+
+        // const emailsCollection = collection(db, "/emails");
+        // const email = "skarn5@uic.edu";
+        // const emailCollection = doc(emailsCollection, email);
+        // const days = collection(emailCollection, "/days");
+        // const specificDay = doc(days, date);
+
+        // setDoc(emailCollection, {});
+        // setDoc(specificDay, {});
+
+        // const newObject = {user: userInput, ChatGPT: chatGptResponse};
+
+        // const specificDaySnapshot = await getDoc(specificDay);
+
+        // if (specificDaySnapshot.exists()) {
+        //   const currentEntries = specificDaySnapshot.data()?.entries;
+        //   currentEntries.push(newObject);
+        //   setDoc(specificDay, {entries: currentEntries});
+        // } else {
+        //   setDoc(specificDay, {entries: newObject});
+        // }
+
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+  };
+
+  const handleReflectionsButtonClick = () => {
+    console.log("This was called");
+    console.log("Current messages:", messages);
+    // Other logic based on messages if needed
+    router.push("/reflections");
   };
 
   return (
@@ -183,4 +277,4 @@ const Journal = () => {
   );
 };
 
-export default Journal;
+export default withAuth(Journal);
