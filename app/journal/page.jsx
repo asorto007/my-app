@@ -4,8 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase/config";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useEffect } from "react";
+
+// test
+import withAuth from "@/app/components/auth";
 
 const Journal = () => {
+  const [user] = useAuthState(auth);
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const router = useRouter();
@@ -206,4 +212,4 @@ const Journal = () => {
   );
 };
 
-export default Journal;
+export default withAuth(Journal);

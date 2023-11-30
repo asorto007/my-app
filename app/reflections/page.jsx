@@ -3,6 +3,10 @@ import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase/config";
 import React, { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useEffect } from "react";
+//Anthony made this change
+import withAuth from "@/app/components/auth";
 
 // Assuming this data could be fetched from a database or state management store
 const dummyEntries = [
@@ -32,7 +36,9 @@ const dummyEntries = [
 ];
 
 const Reflections = () => {
+  const [user] = useAuthState(auth);
   const router = useRouter();
+
   const [entries, setEntries] = useState(dummyEntries); // Replace with your actual data-fetching logic
 
   const buttonStyle = {
@@ -127,4 +133,4 @@ const Reflections = () => {
   );
 };
 
-export default Reflections;
+export default withAuth(Reflections);
