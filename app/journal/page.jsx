@@ -1,6 +1,6 @@
 // pages/journal.tsx
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase/config";
@@ -65,6 +65,16 @@ const Journal = () => {
     }
   };
 
+  
+
+  const handleReflectionsButtonClick = () => {
+    console.log("This was called");
+    console.log('Current messages:', messages);
+    // Other logic based on messages if needed
+    router.push("/reflections");
+  };
+  
+
   return (
     <div
       style={{
@@ -90,7 +100,7 @@ const Journal = () => {
         <button style={buttonStyle} onClick={() => router.push("/journal")}>
           Journal
         </button>
-        <button style={buttonStyle} onClick={() => router.push("/reflections")}>
+        <button style={buttonStyle} onClick={handleReflectionsButtonClick}>
           Reflections
         </button>
         <button
