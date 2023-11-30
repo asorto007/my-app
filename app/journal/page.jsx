@@ -4,8 +4,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase/config";
+import { useAuthState } from "react-firebase-hooks/auth";
+// test
+import withAuth from "@/app/components/auth";
 
 const Journal = () => {
+  const [user] = useAuthState(auth);
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const router = useRouter();
@@ -65,15 +69,12 @@ const Journal = () => {
     }
   };
 
-  
-
   const handleReflectionsButtonClick = () => {
     console.log("This was called");
-    console.log('Current messages:', messages);
+    console.log("Current messages:", messages);
     // Other logic based on messages if needed
     router.push("/reflections");
   };
-  
 
   return (
     <div
@@ -216,4 +217,4 @@ const Journal = () => {
   );
 };
 
-export default Journal;
+export default withAuth(Journal);
