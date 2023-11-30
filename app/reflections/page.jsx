@@ -2,11 +2,10 @@
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth, app, db } from "@/app/firebase/config";
-import React, { useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useEffect } from "react";
 //Anthony made this change
 import withAuth from "@/app/components/auth";
+import React, { useState, useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 // import { initializeApp } from "firebase/app";
 import {
@@ -62,15 +61,16 @@ const dummyEntries = [
   },
   // ...more entries
 ];
-
+                                               
 const Reflections = () => {
   const [user] = useAuthState(auth);
   const router = useRouter();
 
   const [entries, setEntries] = useState(dummyEntries); // Replace with your actual data-fetching logic
+  const [messages, setMessages] = useState([]);
 
   const buttonStyle = {
-    background: "none",
+    background: "none",        
     border: "none",
     color: "black",
     cursor: "pointer",
@@ -79,45 +79,32 @@ const Reflections = () => {
     fontWeight: "700",
   };
 
+
+  const email = "skarn5@uic.edu"
   // my code
-  // const db = getFirestore(app);
+  useEffect(() => {
+    async function retrieveChats() {
+      try {
+        console.log("Use effect called");
+        const getResponse = await fetch(`/api/retrieveChat`, {
+          method: "GET",
+          headers: {
+            "Content-Type": email,
+          }
+        });
+        // const getResponse = await fetch(`/api/retrieveChat`, {
 
-  const emailsCollection = collection(db, "/emails");
-  const email = "skarn5@uic.edu";
-  const emailCollection = doc(emailsCollection, email);
-  const days = collection(emailCollection, "/days");
-  const specificDay = doc(days, "2023-11-01");
+        // })
 
-  setDoc(emailCollection, {});
-  setDoc(specificDay, {data: dummyEntries});
-
-  // const x = getDoc(specificDay)
-  
-  // setDoc(emailDocument, {})
-  // .then(() => setDoc(specificDayDocument, {}))
-  // .then(() => {
-  //   // Now, retrieve the data from the specificDayDocument
-  //   return getDoc(specificDayDocument);
-  // })
-  // .then((specificDaySnapshot) => {
-  //   if (specificDaySnapshot.exists()) {
-  //     // Access the data inside the document
-  //     const specificDayData = specificDaySnapshot.data();
-  //     console.log(`Data for ${userSpecificDay} inside the document:`, specificDayData);
-  //   } else {
-  //     console.log(`Document for ${userSpecificDay} does not exist`);
-  //   }
-  // })
-  // .catch((error) => {
-  //   console.error('Error:', error);
-  // });
-  //   if (specificDaySnapshot.exists()) {
-  //     const x = specificDaySnapshot.data()?.entries || [];
-  //     x.push(dummyEntries);
-  //     setDoc(specificDay, { entries: x });
-  //   } else {
-  //     setDoc(specificDay, { entries: [dummyEntries] });
-  //   }
+        const data = await getResponse.json();
+        console.log(data);
+        setMessages(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    retrieveChats();
+  }, [email])
 
 
   return (
@@ -162,7 +149,7 @@ const Reflections = () => {
 
       {/* Entry Display */}
       <div style={{ padding: "90px" }}>
-        {entries.map((entry) => (
+        {messages.map((entry) => (
           <div
             key={entry.date}
             style={{
@@ -185,14 +172,14 @@ const Reflections = () => {
                 day: "numeric",
               })}
             </div>
-            {entry.quotes.map((quote, index) => (
+            {entry.messages.map((message, index) => (
               <blockquote
                 key={index}
                 style={{ fontStyle: "italic", margin: "10px 0" }}
               >
-                {quote.text}
+                {"User: " + message.user}
                 <br />
-                <span style={{ fontWeight: "bold" }}>{quote.author}</span>
+                <span style={{ fontWeight: "bold" }}>{"ChatGPT: " + message.ChatGPT}</span>
               </blockquote>
             ))}
           </div>
