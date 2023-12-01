@@ -1,4 +1,4 @@
-// pages/journal.tsx
+//pages/journal.tsx
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -21,6 +21,7 @@ const Journal = () => {
   const [user] = useAuthState(auth);
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [isBotThinking, setIsBotThinking] = useState(false);
   const router = useRouter();
 
   const today = new Date();
@@ -40,8 +41,30 @@ const Journal = () => {
     fontWeight: "700",
   };
 
+  // const fetchChatsFromApi = async () => {
+  //   try {
+  //     // Fetch chats from your API route and update the state
+  //     const response = await fetch(`/api/retrieveChat`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": user.email,
+  //       }
+  //     });
+  //     const data = await response.json();
+  //     console.log("This is data: " + data.entries);
+  //     setMessages(data);
+  //   } catch (error) {
+  //     console.error("Error fetching chats:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchChatsFromApi();
+  // }, [])
+
   const handleSend = async () => {
     try {
+      setIsBotThinking(true);
       const trimmedInput = inputValue.trim();
       if (trimmedInput) {
         setMessages([...messages, { sender: "User", text: trimmedInput }]);
@@ -55,8 +78,9 @@ const Journal = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(trimmedInput),
+          timeout: 5000
         });
-
+        
         if (response.status != 200) {
           console.log("Error: " + response.status);
           throw new Error("Error: " + response.status);
@@ -98,34 +122,11 @@ const Journal = () => {
         if (postRequest.status === 200) {
           console.log("HOORAY!");
         }
-
-
-        /* What I'm thinking */
-
-        // const emailsCollection = collection(db, "/emails");
-        // const email = "skarn5@uic.edu";
-        // const emailCollection = doc(emailsCollection, email);
-        // const days = collection(emailCollection, "/days");
-        // const specificDay = doc(days, date);
-
-        // setDoc(emailCollection, {});
-        // setDoc(specificDay, {});
-
-        // const newObject = {user: userInput, ChatGPT: chatGptResponse};
-
-        // const specificDaySnapshot = await getDoc(specificDay);
-
-        // if (specificDaySnapshot.exists()) {
-        //   const currentEntries = specificDaySnapshot.data()?.entries;
-        //   currentEntries.push(newObject);
-        //   setDoc(specificDay, {entries: currentEntries});
-        // } else {
-        //   setDoc(specificDay, {entries: newObject});
-        // }
-
       }
+      setIsBotThinking(false); 
     } catch (error) {
       console.error("Error fetching data:", error);
+      setIsBotThinking(false);
     }
   };
 
@@ -232,6 +233,18 @@ const Journal = () => {
             <span>{message.text}</span>
           </div>
         ))}
+        {isBotThinking && (
+          <div
+            style={{
+              color: "grey",
+              fontSize: "18px",
+              margin: "5px 0",
+              alignSelf: "flex-start",
+            }}
+          >
+            <span>Bot is thinking...</span>
+          </div>
+        )}
       </div>
 
       {/* Input Field */}
@@ -278,3 +291,8 @@ const Journal = () => {
 };
 
 export default withAuth(Journal);
+
+// pages/journal.tsx
+
+
+

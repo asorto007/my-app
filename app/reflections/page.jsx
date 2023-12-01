@@ -147,10 +147,11 @@ const Reflections = () => {
           Log Out
         </button>
       </div>
-
       {/* Entry Display */}
       <div style={{ padding: "90px" }}>
-        {messages.map((entry) => (
+        {messages.slice() // Create a shallow copy of the array to avoid mutating the original array
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .map((entry) => (
           <div
             key={entry.date}
             style={{
