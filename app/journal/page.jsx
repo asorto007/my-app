@@ -6,7 +6,8 @@ import { signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import withAuth from "@/app/components/auth";
 import { auth, app, db } from "@/app/firebase/config";
-
+import Chat from "./chat";
+export const runtime = "edge";
 import {
   getFirestore,
   collection,
@@ -174,8 +175,16 @@ const Journal = () => {
         </button>
       </div>
 
-      {/* Date and Page Title */}
-      <div
+      <Chat
+        email={user.email}
+        style={{
+          width: "100%",
+          height: "100vh",
+          position: "relative",
+          background: "rgba(27, 74, 156, 0.70)",
+        }}
+      />
+      {/* <div
         style={{
           width: "642px",
           height: "110px",
@@ -195,10 +204,9 @@ const Journal = () => {
         >
           {date}
         </span>
-      </div>
-
+      </div> */}
       {/* Chat Box */}
-      <div
+      {/* <div
         style={{
           width: "600px",
           height: "500px",
@@ -230,10 +238,9 @@ const Journal = () => {
             <span>{message.text}</span>
           </div>
         ))}
-      </div>
-
+      </div> */}
       {/* Input Field */}
-      <div
+      {/* <div
         style={{
           width: "600px",
           left: "50%",
@@ -270,7 +277,7 @@ const Journal = () => {
         >
           Send
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

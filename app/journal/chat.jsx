@@ -4,7 +4,7 @@
 import { useChat } from "ai/react";
 import { useState, useEffect } from "react";
 
-export default function MyComponent() {
+export default function MyComponent({ email }) {
   const {
     messages,
     input,
@@ -117,14 +117,7 @@ export default function MyComponent() {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        position: "relative",
-        background: "rgba(27, 74, 156, 0.70)",
-      }}
-    >
+    <div>
       <div
         style={{
           width: "642px",
