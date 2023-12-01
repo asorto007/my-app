@@ -55,6 +55,7 @@ const Journal = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(trimmedInput),
+          timeout: 5000
         });
 
         if (response.status != 200) {
