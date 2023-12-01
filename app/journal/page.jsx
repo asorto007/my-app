@@ -79,12 +79,12 @@ const Journal = () => {
           user: trimmedInput,
           ChatGPT: jsonData.text,
           email: user.email,
-          date: date
-        }
+          date: date,
+        };
 
         const insertPayload = {
-          prompt: dataToInsert
-        }
+          prompt: dataToInsert,
+        };
 
         const postRequest = await fetch(`/api/insertChat`, {
           method: "POST",
@@ -98,7 +98,6 @@ const Journal = () => {
         if (postRequest.status === 200) {
           console.log("HOORAY!");
         }
-
 
         /* What I'm thinking */
 
@@ -122,7 +121,6 @@ const Journal = () => {
         // } else {
         //   setDoc(specificDay, {entries: newObject});
         // }
-
       }
     } catch (error) {
       console.error("Error fetching data:", error);
