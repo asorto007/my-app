@@ -23,6 +23,39 @@ const Journal = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const router = useRouter();
+  const [userFeeling, setUserFeeling] = useState(""); // State to hold the user's feeling
+
+  const saveFeelingToFirestore = async (feeling) => {
+    try {
+      // Manually specify a Document ID
+      const docId = "JvB7brbRjHe1oWctHBzV"; // Replace this with your logic to generate or define an ID
+
+      // Define the document reference with a specific ID
+      const docRef = doc(db, "feelings", docId);
+
+      // Set the document data
+      await setDoc(docRef, {
+        userId: user.email,
+        feeling: feeling,
+      });
+
+      console.log("Feeling saved successfully with custom ID.");
+    } catch (error) {
+      console.error("Error saving feeling to Firestore:", error);
+    }
+  };
+
+  const handleFeelingSelection = (feeling) => {
+    setUserFeeling(feeling);
+    saveFeelingToFirestore(feeling); // Save the feeling when it's selected
+  };
+
+  const feelings = [
+    { name: "happy", emoji: "😊" },
+    { name: "neutral", emoji: "😐" },
+    { name: "sad", emoji: "😔" },
+    // ... add more feelings as necessary ...
+  ];
 
   const today = new Date();
   const date = today.toLocaleDateString("en-US", {
@@ -56,6 +89,7 @@ const Journal = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(trimmedInput),
+          timeout: 5000,
         });
 
         if (response.status != 200) {
@@ -135,6 +169,11 @@ const Journal = () => {
     router.push("/reflections");
   };
 
+  const textStyle = {
+    paddingLeft: "48px", // Adjust padding as needed
+    // Other styling properties can go here
+  };
+
   return (
     <div
       style={{
@@ -144,6 +183,50 @@ const Journal = () => {
         background: "rgba(27, 74, 156, 0.70)",
       }}
     >
+      <div
+        style={{
+          width: "300px",
+          height: "200px",
+          paddingTop: "40px",
+          paddingLeft: "20px",
+          paddingRight: "20px",
+          left: "78%",
+          transform: "translateX(-35%)",
+          top: "290px",
+          position: "absolute",
+          background: "white",
+          borderRadius: "10px",
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
+          fontFamily: "PT Serif",
+        }}
+      >
+        <div style={textStyle}>How are you feeling today?</div>
+        {feelings.map((feeling) => (
+          <button
+            key={feeling.name}
+            onClick={() => handleFeelingSelection(feeling.name)}
+            style={{
+              background: "none",
+              fontSize: "24px",
+              cursor: "pointer",
+              border: "none",
+            }}
+          >
+            {feeling.emoji}
+          </button>
+        ))}
+      </div>
+      <div
+        style={{
+          paddingTop: "20px",
+          paddingLeft: "20px",
+          paddingRight: "100px",
+        }}
+      ></div>
+
       {/* Navigation */}
       <div
         style={{
@@ -186,9 +269,9 @@ const Journal = () => {
       />
       {/* <div
         style={{
-          width: "642px",
+          width: "643px",
           height: "110px",
-          left: "330px",
+          left: "400px",
           top: "62px",
           position: "absolute",
           opacity: "0.85",
@@ -213,8 +296,8 @@ const Journal = () => {
           paddingTop: "20px",
           paddingLeft: "20px",
           paddingRight: "20px",
-          left: "50%",
-          transform: "translateX(-50%)",
+          left: "34%",
+          transform: "translateX(-35%)",
           top: "150px",
           position: "absolute",
           background: "white",
@@ -235,7 +318,14 @@ const Journal = () => {
               alignSelf: message.sender === "AI" ? "flex-start" : "flex-end",
             }}
           >
-            <span>{message.text}</span>
+            <span>
+              {message.sender === "AI" && (
+                <span>
+                  <strong>SyntaxSolace:</strong> {message.text}
+                </span>
+              )}
+              {message.sender !== "AI" && <span>{message.text}</span>}
+            </span>
           </div>
         ))}
       </div> */}
@@ -243,8 +333,8 @@ const Journal = () => {
       {/* <div
         style={{
           width: "600px",
-          left: "50%",
-          transform: "translateX(-50%)",
+          left: "34%",
+          transform: "translateX(-34%)",
           bottom: "30px",
           position: "absolute",
         }}
@@ -255,13 +345,13 @@ const Journal = () => {
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={(e) => e.key === "Enter" && handleSend()}
           style={{
-            width: "calc(100% - 100px)",
+            width: "calc(100% - 70px)",
             padding: "10px",
             borderRadius: "10px",
             border: "1px solid #CCC",
             marginRight: "10px",
           }}
-          placeholder="Type Something here"
+          placeholder="type your thoughts/feelings here"
         />
         <button
           onClick={handleSend}
