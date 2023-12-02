@@ -20,6 +20,7 @@ import {
 
 const Journal = () => {
   const [user] = useAuthState(auth);
+
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const router = useRouter();
@@ -257,16 +258,17 @@ const Journal = () => {
           Log Out
         </button>
       </div>
-
-      <Chat
-        email={user.email}
-        style={{
-          width: "100%",
-          height: "100vh",
-          position: "relative",
-          background: "rgba(27, 74, 156, 0.70)",
-        }}
-      />
+      {user && (
+        <Chat
+          email={user?.email} // Pass the user's email as a prop
+          style={{
+            width: "100%",
+            height: "100vh",
+            position: "relative",
+            background: "rgba(27, 74, 156, 0.70)",
+          }}
+        />
+      )}
       {/* <div
         style={{
           width: "643px",

@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 export default function MyComponent({ email }) {
   const {
     messages,
+    setMessages,
     input,
     setInput,
     handleInputChange,
@@ -17,6 +18,7 @@ export default function MyComponent({ email }) {
     api: "/api/chat",
   });
 
+  const [dayMesssages, setDayMessages] = useState([]);
   const today = new Date();
   const date = today.toLocaleDateString("en-US", {
     day: "numeric",
@@ -30,14 +32,18 @@ export default function MyComponent({ email }) {
     async function getChats() {
       try {
         if (isSubmitted && messages.length > 0) {
+          const userInput = messages[messages.length - 2]?.content || "";
           const aiResponse = messages[messages.length - 1]?.content || "";
 
+          console.log("User Input:", userInput);
           console.log("AI Response:", aiResponse);
+          console.log("Email:", email);
+          console.log("Date:", date);
           // Prepare the data for the insertChat API
           const dataToInsert = {
-            user: input,
+            user: userInput,
             ChatGPT: aiResponse,
-            email: "asorto3@uic.edu",
+            email: email,
             date: date,
           };
 
@@ -67,7 +73,42 @@ export default function MyComponent({ email }) {
       }
     }
     getChats();
-  }, [messages, isSubmitted]);
+  }, [messages, isSubmitted, email]);
+
+  // useEffect(() => {
+  //   async function retrieveChats() {
+  //     try {
+  //       console.log("Fetching chats for the day");
+  //       const getResponse = await fetch(`/api/retrieveChat`, {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": email,
+  //         },
+  //       });
+  //       if (getResponse.ok) {
+  //         const data = await getResponse.json();
+  //         console.log("Retrieved data:", data);
+  //         const todaysMessages = data.filter((item) => item.date === date);
+  //         const todaysMessagesContent = todaysMessages.flatMap((entry) =>
+  //           entry.messages.map((message) => ({
+  //             userMessage: message.user,
+  //             chatGPTMessage: message.ChatGPT,
+  //           }))
+  //         );
+  //         console.log("Retrieved data:", todaysMessagesContent);
+  //         setDayMessages(todaysMessagesContent);
+  //         setMessages(todaysMessagesContent); // Update the state with the retrieved messages
+  //       } else {
+  //         throw new Error(`HTTP error! status: ${getResponse.status}`);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching chats:", error);
+  //     }
+  //   }
+  //   if (email) {
+  //     retrieveChats(); // Call the function if email is available
+  //   }
+  // }, [email]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -82,35 +123,6 @@ export default function MyComponent({ email }) {
       setInput("");
       await append({ role: "user", content: userInput });
       setIsSubmitted(true);
-
-      // Prepare the data for the insertChat API
-      // console.log(aiResponse);
-      // const dataToInsert = {
-      //   user: userInput,
-      //   ChatGPT: aiResponse,
-      //   email: "asorto3@uic.edu", // Make sure 'user' is defined and has 'email'
-      //   date: date,
-      // };
-
-      // const insertPayload = {
-      //   prompt: dataToInsert,
-      // };
-
-      // // Send the data to your API
-      // const postRequest = await fetch(`/api/insertChat`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   credentials: "same-origin",
-      //   body: JSON.stringify(insertPayload),
-      // });
-
-      // if (postRequest.status === 200) {
-      //   console.log("HOORAY!");
-      // }
-      // console.log("Before setInput");
-      // console.log("After setInput, input value:", input);
     } catch (error) {
       console.error("Error in form submission:", error);
     }
