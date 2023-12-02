@@ -29,6 +29,7 @@ export async function POST(req, res) {
     // console.log("req", req);
     // console.log("userInput", req.body);
     console.log(`Received user input: ${userInput}`);
+    const modifiedInput = userInput + " in 50 words or less";
 
     const response = await openaiInstance.chat.completions.create({
       messages: [
@@ -36,7 +37,7 @@ export async function POST(req, res) {
           role: "system",
           content: "You are a helpful assistant for mental health.",
         },
-        { role: "user", content: userInput },
+        { role: "user", content: modifiedInput },
       ],
       model: "gpt-3.5-turbo",
     });
