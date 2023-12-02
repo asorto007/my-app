@@ -25,9 +25,7 @@ const openaiInstance = new openai.OpenAI({
 export async function POST(req, res) {
   try {
     const userInput = await req.json();
-    // const { userInput } = body;
-    // console.log("req", req);
-    // console.log("userInput", req.body);
+
     console.log(`Received user input: ${userInput}`);
 
     const response = await openaiInstance.chat.completions.create({
@@ -42,23 +40,6 @@ export async function POST(req, res) {
     });
 
     const chatGptResponse = response.choices[0].message.content;
-
-    // const emailsCollection = collection(db, "/emails");
-    // const email = "skarn5@uic.edu";
-    // const emailCollection = doc(emailsCollection, email);
-    // const days = collection(emailCollection, "/days");
-    // const specificDay = doc(days, "2023-11-01");
-
-    // setDoc(emailCollection, {});
-    // setDoc(specificDay, {});
-
-    // const newObject = {user: userInput, ChatGPT: chatGptResponse}
-
-    // const specificDaySnapshot = await getDoc(specificDay);
-    // if (specificDaySnapshot.exists()) {
-
-    // }
-
 
     return Response.json({ text: chatGptResponse });
   } catch (error) {
