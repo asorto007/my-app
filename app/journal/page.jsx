@@ -21,6 +21,7 @@ const Journal = () => {
   const [user] = useAuthState(auth);
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [isBotThinking, setIsBotThinking] = useState(false);
   const router = useRouter();
   const [userFeeling, setUserFeeling] = useState(""); // State to hold the user's feeling
 
@@ -75,6 +76,7 @@ const Journal = () => {
 
   const handleSend = async () => {
     try {
+      setIsBotThinking(true);
       const trimmedInput = inputValue.trim();
       if (trimmedInput) {
         setMessages([...messages, { sender: "User", text: trimmedInput }]);
@@ -132,7 +134,7 @@ const Journal = () => {
         if (postRequest.status === 200) {
           console.log("HOORAY!");
         }
-
+        setIsBotThinking(false);
         /* What I'm thinking */
 
         // const emailsCollection = collection(db, "/emails");
@@ -158,6 +160,7 @@ const Journal = () => {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+      setIsBotThinking(false);
     }
   };
 
@@ -320,6 +323,18 @@ const Journal = () => {
             </span>
           </div>
         ))}
+        {isBotThinking && (
+          <div
+            style={{
+              color: "grey",
+              fontSize: "18px",
+              margin: "5px 0",
+              alignSelf: "flex-start",
+            }}
+          >
+            <span>Bot is thinking...</span>
+          </div>
+        )}
       </div>
 
       {/* Input Field */}
